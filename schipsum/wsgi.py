@@ -13,16 +13,35 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os
+# import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "schipsum.settings")
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "schipsum.settings")
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+# from django.core.wsgi import get_wsgi_application
+# application = get_wsgi_application()
 
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
+import os
+import sys
+
+# redirect sys.stdout to sys.stderr for bad libraries like geopy that uses
+# print statements for optional import exceptions.
+sys.stdout = sys.stderr
+
+from os.path import abspath, dirname, join
+
+sys.path.insert(0, abspath(join(dirname(__file__), "../../")))
+
+from django.conf import settings
+
+os.environ["DJANGO_SETTINGS_MODULE"] = "schipsum.settings"
+sys.path.insert(0, join(settings.PROJECT_ROOT))
+
+from django.core.handlers.wsgi import WSGIHandler
+application = WSGIHandler()
+

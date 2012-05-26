@@ -25,3 +25,11 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+local_settings.py
+local_urls.py
+deploy/deploy.wsgi
+TODO.txt
+*.pyc
+*.DS_Store
+!.gitignore
